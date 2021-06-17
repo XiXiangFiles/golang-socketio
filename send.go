@@ -3,9 +3,10 @@ package gosocketio
 import (
 	"encoding/json"
 	"errors"
-	"github.com/graarh/golang-socketio/protocol"
 	"log"
 	"time"
+
+	"github.com/XiXiangFiles/golang-socketio/protocol"
 )
 
 var (
