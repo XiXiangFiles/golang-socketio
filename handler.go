@@ -100,6 +100,7 @@ func (m *methods) processIncomingMessage(c *Channel, msg *protocol.Message) {
 		}
 
 		data := f.getArgs()
+		msg.Args = msg.Args[:len(msg.Args)-1]
 		err := json.Unmarshal([]byte(msg.Args), &data)
 		if err != nil {
 			return
