@@ -15,8 +15,8 @@ const (
 	ackMessage    = "43"
 
 	CloseMessage = "1"
-	PingMessage = "2"
-	PongMessage = "3"
+	PingMessage  = "2"
+	PongMessage  = "3"
 )
 
 var (
@@ -122,17 +122,22 @@ func getAck(text string) (ackId int, restText string, err error) {
 	}
 	text = text[2:]
 
-	pos := strings.IndexByte(text, '[')
-	if pos == -1 {
+	frontBracket := strings.IndexByte(text, '[')
+	if frontBracket == -1 {
 		return 0, "", ErrorWrongPacket
 	}
 
-	ack, err := strconv.Atoi(text[0:pos])
+	backBracket := strings.IndexByte(text, ']')
+	if frontBracket == -1 {
+		return 0, "", ErrorWrongPacket
+	}
+
+	ack, err := strconv.Atoi(text[0:frontBracket])
 	if err != nil {
 		return 0, "", err
 	}
 
-	return ack, text[pos:], nil
+	return ack, text[frontBracket : backBracket+1], nil
 }
 
 /**
