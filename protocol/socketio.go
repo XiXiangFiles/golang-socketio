@@ -136,8 +136,7 @@ func getAck(text string) (ackId int, restText string, err error) {
 	if err != nil {
 		return 0, "", err
 	}
-
-	return ack, text[frontBracket : backBracket+1], nil
+	return ack, text[frontBracket:backBracket], nil
 }
 
 /**
@@ -171,15 +170,14 @@ func getMethod(text string) (method, restText string, err error) {
 	if (end < start) || (rest >= len(text)) {
 		return "", "", ErrorWrongPacket
 	}
-
-	return text[start:end], text[rest : len(text)-1], nil
+	// log.Println(text[rest : len(text)-2])
+	return text[start:end], text[rest : len(text)-2], nil
 }
 
 func Decode(data string) (*Message, error) {
 	var err error
 	msg := &Message{}
 	msg.Source = data
-
 	msg.Type, err = getMessageType(data)
 	if err != nil {
 		return nil, err
@@ -201,7 +199,7 @@ func Decode(data string) (*Message, error) {
 		if err != nil {
 			return nil, err
 		}
-		msg.Args = rest[1 : len(rest)-1]
+		msg.Args = rest[1:len(rest)]
 		return msg, nil
 	}
 
